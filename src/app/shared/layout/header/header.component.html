@@ -1,0 +1,105 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" routerLink="/home">Digital Microstructure Repository</a>
+    </div>
+
+    <!--        <button mat-raised-button class="navbar-toggler" type="button" (click)="sidebarToggle()">-->
+    <!--        <button mat-raised-button class="navbar-toggler" type="button">-->
+    <!--            <span class="sr-only">Toggle navigation</span>-->
+    <!--            <span class="navbar-toggler-icon icon-bar"></span>-->
+    <!--        </button>-->
+    <!--        <div class="navbar-nav">-->
+    <!--            <form class="navbar-form">-->
+    <!--                <div class="input-group no-border">-->
+    <!--                    <input type="text" value="" class="form-control" placeholder="Search...">-->
+    <!--                    <button mat-raised-button type="submit" class="btn btn-white btn-round btn-just-icon">-->
+    <!--                        <i class="material-icons">search</i>-->
+    <!--                        <div class="ripple-container"></div>-->
+    <!--                    </button>-->
+    <!--                </div>-->
+    <!--            </form>-->
+
+    <!-- Toggler/collapsible Button -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav navbar-collapse">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/home']" routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact:true}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/datasets']" routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact:true}">Datasets</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/datasets', 0, 'edit']" routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact:true}">Upload New Dataset</a>
+        </li>
+      </ul>
+    </div>
+<!--    <ul class="navbar-nav">-->
+<!--      <li class="nav-item dropdown">-->
+<!--        <a class="dropdown-toggle pi-caret-down" href="#" role="button">My Datasets</a>-->
+<!--        <ul class="dropdown-menu">-->
+<!--          <li class="dropdown-item"><a [routerLink]="['/datasets', 0, 'edit']" routerLinkActive="active"-->
+<!--           [routerLinkActiveOptions]="{exact:true}">Upload New Dataset</a></li>-->
+<!--          <li class="dropdown-item"><a routerLink="/datasets/upload">My published</a></li>-->
+<!--        </ul>-->
+<!--      </li>-->
+<!--    </ul>-->
+    <ul class="navbar-nav">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown" role="button">
+           <i class="material-icons">person</i>
+          <p>
+            <span class="d-lg-none d-md-block">Account</span>
+          </p>
+        </a>
+        <div class="dropdown-menu">
+        <a class="dropdown-item" href="#">Link 1</a>
+        <a class="dropdown-item" href="#">Link 2</a>
+        <a class="dropdown-item" href="#">Link 3</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+<!--    <li class="nav-item"-->
+<!--        *ngIf="isLoggedIn">-->
+<!--      <a class="nav-link">Welcome {{ userName }}</a>-->
+<!--    </li>-->
+<!--    <li class="nav-item">-->
+<!--      <a class="nav-link">Show Messages</a>-->
+<!--    </li>-->
+<!--    <li class="nav-item"-->
+<!--        *ngIf="!isLoggedIn">-->
+<!--      <a class="nav-link" routerLink="/login">Log In</a>-->
+<!--    </li>-->
+<!--    <li class="nav-item"-->
+<!--        *ngIf="isLoggedIn">-->
+<!--      <a class="nav-link"-->
+<!--         (click)="logOut()">Log Out</a>-->
+<!--    </li>-->
+<!--  </ul>-->
+<!--                <li class="nav-item dropdown">-->
+<!--                    <a class="nav-link" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--                        <i class="material-icons">notifications</i>-->
+<!--                        <span class="notification">5</span>-->
+<!--                        <p>-->
+<!--                            <span class="d-lg-none d-md-block">Some Actions</span>-->
+<!--                        </p>-->
+<!--                    </a>-->
+<!--                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">-->
+<!--                        <a class="dropdown-item" href="#">Mike John responded to your email</a>-->
+<!--                        <a class="dropdown-item" href="#">You have 5 new tasks</a>-->
+<!--                        <a class="dropdown-item" href="#">You're now friend with Andrew</a>-->
+<!--                        <a class="dropdown-item" href="#">Another Notification</a>-->
+<!--                        <a class="dropdown-item" href="#">Another One</a>-->
+<!--                    </div>-->
+<!--                </li>-->

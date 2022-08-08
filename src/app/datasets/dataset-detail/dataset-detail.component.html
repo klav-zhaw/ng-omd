@@ -1,0 +1,16 @@
+<div *ngIf="dataset" class="row">
+  <div class="col-sm12 col-md-8">
+    <h3>{{ pageTitle }}</h3>
+    <ul>
+      <li>Owner: {{ dataset.description }}</li>
+      <li>Publication Date: {{ dataset.date }}</li>
+      <li>Owner: {{ dataset.owner }}</li>
+      <li>Material: {{ dataset.material }}</li>
+    </ul>
+  </div>
+
+
+
+</div>
+<p *ngIf="!dataset">Dataset not found</p>
+

@@ -1,0 +1,218 @@
+<form novalidate
+      (ngSubmit)="saveDataset()"
+      [formGroup]="datasetForm">
+  <mat-accordion multi style="width:800px; display:block">
+    <mat-expansion-panel expanded>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Dataset Basic Information
+        </mat-panel-title>
+        <mat-panel-description>
+          Description is very long
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div>
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label"
+                 for="titleId">Dataset Title</label>
+          <div class="col-md-8">
+            <input class="form-control"
+                   id="titleId"
+                   type="text"
+                   placeholder="Title (required)"
+                   formControlName="title"
+                   [ngClass]="{'is-invalid': !isValid('title')}"/>
+            <!--          <span class="invalid-feedback">-->
+            <!--            <span *ngIf="metadataForm.get('title')!.errors?.required">-->
+            <!--              Please enter the dataset title.-->
+            <!--            </span>-->
+            <!--            <span *ngIf="metadataForm.get('title')!.errors?.minlength">-->
+            <!--              The title must be longer than 3 characters.-->
+            <!--            </span>-->
+            <!--          </span>-->
+          </div>
+        </div>
+
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label"
+                 for="descriptionId">Description</label>
+          <div class="col-md-8">
+            <input class="form-control"
+                   id="descriptionId"
+                   type="text"
+                   placeholder="Description"
+                   formControlName="description"
+                   [ngClass]="{'is-invalid': !isValid('description')}"/>
+          </div>
+        </div>
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Authors
+        </mat-panel-title>
+        <mat-panel-description>
+          Authors
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div>
+        <div formArrayName="authors"
+             *ngFor="let author of authors.controls; let i=index">
+          <div [formGroupName]="i">
+            <div class="form-group row mb-2">
+              <label class="col-md-2 col-form-label"
+                     attr.for="{{'authorFirstNameId' + i}}">First Name</label>
+              <div class="col-md-8">
+                <input class="form-control"
+                       id="{{'authorFirstNameId' + i}}"
+                       type="text"
+                       placeholder="First Name"
+                       formControlName="firstName"
+                       [ngClass]="{'is-invalid': !isValid('firstName', i)}"/>
+              </div>
+            </div>
+            <div class="form-group row mb-2">
+              <label class="col-md-2 col-form-label"
+                     attr.for="{{'authorLastNameId' + i}}">Last Name</label>
+              <div class="col-md-8">
+                <input class="form-control"
+                       id="{{'authorLastNameId' + i}}"
+                       type="text"
+                       placeholder="Last Name"
+                       formControlName="lastName"
+                       [ngClass]="{'is-invalid': !isValid('lastName', i)}"/>
+              </div>
+            </div>
+            <div class="form-group row mb-2">
+              <label class="col-md-2 col-form-label"
+                     attr.for="{{'authorAffiliation' + i}}">Affiliation</label>
+              <div class="col-md-8">
+                <input class="form-control"
+                       id="{{'authorAffiliation' + i}}"
+                       type="text"
+                       placeholder="Affiliation"
+                       formControlName="affiliation"
+                       [ngClass]="{'is-invalid': !isValid('affiliation', i)}"/>
+              </div>
+            </div>
+            <div class="form-group row mb-2">
+              <label class="col-md-2 col-form-label"
+                     attr.for="{{'orcIdId' + i}}">Orc ID</label>
+              <div class="col-md-8">
+                <input class="form-control"
+                       id="{{'orcIdId' + i}}"
+                       type="text"
+                       placeholder="Orc ID"
+                       formControlName="orcId"
+                       [ngClass]="{'is-invalid': !isValid('orcId', i)}"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row mb-2">
+          <div class="col-md-4">
+            <button class="btn btn-outline-primary"
+                    type="button"
+                    [disabled]="!authors.valid"
+                    (click)="addAuthor()">
+              Add another author
+            </button>
+          </div>
+        </div>
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Funding
+        </mat-panel-title>
+        <mat-panel-description>
+          description
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div>
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label"
+                 for="fundingAgencyId">Funding Agency</label>
+          <div class="col-md-8">
+            <input class="form-control"
+                   id="fundingAgencyId"
+                   type="text"
+                   placeholder="Funding Agency"
+                   formControlName="fundingAgency"
+                   [ngClass]="{'is-invalid': !isValid('fundingAgency')}"/>
+          </div>
+        </div>
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label"
+                 for="grantNoId">Grant Number</label>
+          <div class="col-md-8">
+            <input class="form-control"
+                   id="grantNoId"
+                   type="text"
+                   placeholder="Grant Number"
+                   formControlName="grantNumber"
+                   [ngClass]="{'is-invalid': !isValid('grantNumber')}"/>
+          </div>
+        </div>
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          References
+        </mat-panel-title>
+        <mat-panel-description>
+          description
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div>
+
+        <div formArrayName="references"
+             *ngFor="let reference of references.controls; let i=index">
+          <div [formGroupName]="i">
+            <div class="form-group row mb-2">
+              <label class="col-md-2 col-form-label"
+                     attr.for="{{'referenceDoiId' + i}}">DOI</label>
+              <div class="col-md-8">
+                <input class="form-control"
+                       id="{{'referenceDoiId' + i}}"
+                       type="text"
+                       placeholder="DOI"
+                       formControlName="doi"
+                       [ngClass]="{'is-invalid': !isValid('doi', i)}"/>
+              </div>
+            </div>
+            <div class="form-group row mb-2">
+              <label class="col-md-2 col-form-label"
+                     attr.for="{{'referenceCitationId' + i}}">Citation</label>
+              <div class="col-md-8">
+                <input class="form-control"
+                       id="{{'referenceCitationId' + i}}"
+                       type="text"
+                       placeholder="Citation"
+                       formControlName="citation"
+                       [ngClass]="{'is-invalid': !isValid('citation', i)}"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row mb-2">
+          <div class="col-md-4">
+            <button class="btn btn-outline-primary"
+                    type="button"
+                    [disabled]="!references.valid"
+                    (click)="addReference()">
+              Add another reference
+            </button>
+          </div>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+</form>

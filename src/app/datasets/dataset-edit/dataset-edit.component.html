@@ -1,0 +1,111 @@
+<h2>{{pageTitle}}</h2>
+
+
+<!--<div class="row"-->
+<!--     *ngIf="dataset">-->
+<!--  <div class="wizard">-->
+<!--    <a (click)="goToTab('meta-data')">-->
+<!--      <span class="omd-step-number">1</span>Dataset Meta-Information<span-->
+<!--      [ngClass]="{'fa fa-exclamation': !isValid('info')}"></span>-->
+<!--    </a>-->
+<!--    <a (click)="goToTab('materials')"-->
+<!--       routerLinkActive="active">-->
+<!--      <span class="omd-step-number">2</span>Materials<span [ngClass]="{'fa fa-exclamation': !isValid('tags')}"></span>-->
+<!--    </a>-->
+<!--    <a [routerLink]="['dataset-microstructures']"-->
+<!--       routerLinkActive="active">-->
+<!--      <span class="omd-step-number">3</span>Microstructures<span-->
+<!--      [ngClass]="{'fa fa-exclamation': !isValid('tags')}"></span>-->
+<!--    </a>-->
+<!--    <a [routerLink]="['dataset-fabrication']"-->
+<!--       routerLinkActive="active">-->
+<!--      <span class="omd-step-number">4</span>Fabrication<span [ngClass]="{'fa fa-exclamation': !isValid('tags')}"></span>-->
+<!--    </a>-->
+<!--    <a [routerLink]="['dataset-properties']"-->
+<!--       routerLinkActive="active">-->
+<!--      <span class="omd-step-number">5</span>Prop & Perf<span [ngClass]="{'fa fa-exclamation': !isValid('tags')}"></span>-->
+<!--    </a>-->
+<!--    <a [routerLink]="['dataset-publishing']"-->
+<!--       routerLinkActive="active">-->
+<!--      <span class="omd-step-number">6</span>Publishing<span [ngClass]="{'fa fa-exclamation': !isValid('tags')}"></span>-->
+<!--    </a>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--<div class="row" *ngIf="currentTab==='meta-data'">-->
+<!--  <app-dataset-metadata></app-dataset-metadata>-->
+<!--</div>-->
+
+<!--<div class="row" *ngIf="currentTab==='materials'">-->
+<!--  <app-dataset-materials></app-dataset-materials>-->
+<!--</div>-->
+
+<div class="row"
+     *ngIf="dataset">
+  <div class="wizard">
+    <a [routerLink]="['dataset-meta']"
+       routerLinkActive="active">
+      <span class="omd-step-number">1</span>Dataset Meta-Information<span
+      [ngClass]="{'fa fa-exclamation': !isValid('info')}"></span>
+    </a>
+    <a [routerLink]="['dataset-materials']"
+       routerLinkActive="active">
+      <span class="omd-step-number">2</span>Materials<span [ngClass]="{'fa fa-exclamation': !isValid('tags')}"></span>
+    </a>
+    <a [routerLink]="['dataset-microstructures']"
+       routerLinkActive="active">
+      <span class="omd-step-number">3</span>Microstructures<span
+      [ngClass]="{'fa fa-exclamation': !isValid('tags')}"></span>
+    </a>
+    <a [routerLink]="['dataset-fabrication']"
+       routerLinkActive="active">
+      <span class="omd-step-number">4</span>Fabrication<span [ngClass]="{'fa fa-exclamation': !isValid('tags')}"></span>
+    </a>
+    <a [routerLink]="['dataset-properties']"
+       routerLinkActive="active">
+      <span class="omd-step-number">5</span>Prop & Perf<span [ngClass]="{'fa fa-exclamation': !isValid('tags')}"></span>
+    </a>
+    <a [routerLink]="['dataset-publishing']"
+       routerLinkActive="active">
+      <span class="omd-step-number">6</span>Publishing<span [ngClass]="{'fa fa-exclamation': !isValid('tags')}"></span>
+    </a>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<!--    <div class="row mb-2">-->
+<!--      <div class="col-md-4">-->
+<!--        <button class="btn btn-primary mr-3"-->
+<!--                style="width:80px"-->
+<!--                type="button"-->
+<!--                [title]="isValid() ? 'Save your entered data' : 'Disabled until the form data is valid'"-->
+<!--                [disabled]="!isValid()"-->
+<!--                (click)="saveProduct()">-->
+<!--          Save-->
+<!--        </button>-->
+<!--        <button class="btn btn-outline-secondary mr-3"-->
+<!--                style="width:80px"-->
+<!--                type="button"-->
+<!--                title="Cancel your edits"-->
+<!--                [routerLink]="['/products']">-->
+<!--          Cancel-->
+<!--        </button>-->
+<!--        <button class="btn btn-outline-warning"-->
+<!--                style="width:80px"-->
+<!--                type="button"-->
+<!--                title="Delete this product"-->
+<!--                (click)="deleteProduct()">-->
+<!--          Delete-->
+<!--        </button>-->
+<!--      </div>-->
+<!--    </div>-->
+
+
+<!--<div class="alert alert-danger"-->
+<!--     *ngIf="errorMessage">{{errorMessage}}-->
+<!--</div>-->

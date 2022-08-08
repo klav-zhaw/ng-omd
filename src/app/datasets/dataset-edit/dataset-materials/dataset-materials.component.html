@@ -1,0 +1,47 @@
+<mat-accordion multi style="width:800px; display:block">
+  <mat-expansion-panel expanded>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Material Keywords
+      </mat-panel-title>
+      <mat-panel-description>
+        Please add 3 to 5 keywords that characterize the materials and microstructures, which are the content of this
+        dataset.
+        For example: Fuel cells, SOFC, electrode, cermet anode, Ni-YSZ
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div>
+      <mat-form-field class="example-chip-list" appearance="fill">
+        <mat-label>Material Keywords</mat-label>
+        <mat-chip-list #chipList aria-label="Material keywords">
+          <mat-chip *ngFor="let keyword of materialKeywords" (removed)="remove(keyword)">
+            {{keyword}}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+          <input placeholder="New keyword..."
+                 [matChipInputFor]="chipList"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 [matChipInputAddOnBlur]="addOnBlur"
+                 (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+      </mat-form-field>
+    </div>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Panel 2
+      </mat-panel-title>
+      <mat-panel-description>
+        Description 2
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div>
+      content 2
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
+
