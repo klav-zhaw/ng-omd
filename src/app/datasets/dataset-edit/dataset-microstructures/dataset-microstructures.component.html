@@ -1,30 +1,309 @@
+<div>
+  <h2>List of microstructures images</h2>
+  <table *ngIf="microstructures.length >= 0" mat-table>
+<!--    <thead>-->
+<!--    <th>Number</th>-->
+<!--    <th>Filename</th>-->
+<!--    <th>Samplename</th>-->
+<!--    <th>Sample Locality</th>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--    <tr *ngFor="let microstructure of microstructures.controls; let i=index">-->
+<!--      <td><a href="#microstructure-1">Microstructure {{i}}</a></td>-->
+<!--      <td>file.jpg</td>-->
+<!--      <td>{{microstructures.length}}</td>-->
+<!--      <td>{{microstructures.at(i).get("samplename")}}</td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+  </table>
+  <p *ngIf="microstructures.length == 0">No microstructure images added</p>
+</div>
+<form novalidate
+      (ngSubmit)="saveDataset()"
+      [formGroup]="microstructureForm">
+  <mat-accordion multi style="width:800px; display:block">
+    <div formArrayName="microstructures"
+         *ngFor="let microstructure of microstructures.controls; let i=index">
+      <div [formGroupName]="i" id="microstructure-{{i}}">
+        <mat-expansion-panel expanded>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Microstructure Image {{i + 1}}
+            </mat-panel-title>
+            <mat-panel-description>
+              Provide images for a microstructure
+            </mat-panel-description>
+          </mat-expansion-panel-header>
 
-<mat-accordion multi style="width:800px; display:block">
-  <mat-expansion-panel expanded>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Panel 1
-      </mat-panel-title>
-      <mat-panel-description>
-        Description is very long
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <div>
-      content 1
-    </div>
-  </mat-expansion-panel>
+          <mat-accordion multi style="width:755px; display:block">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Microstructure Information
+                </mat-panel-title>
+                <mat-panel-description>
+                  Origin and comment
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <div>
 
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-       Panel 2
-      </mat-panel-title>
-      <mat-panel-description>
-        Description 2
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <div>
-      content 2
+                <div class="form-group row mb-2">
+                  <label class="col-md-2 col-form-label">Origin</label>
+                  <div class="col-md-8">
+                    <div class="form-check form-check-inline">
+                      <label class="form-check-label">
+                        <input class="form-check-input"
+                               id="{{'origin' + i}}"
+                               type="radio"
+                               value="real"
+                               formControlName="origin">Real
+                      </label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                      <label class="form-check-label">
+                        <input class="form-check-input"
+                               id="{{'origin' + i}}"
+                               type="radio"
+                               value="virtual"
+                               formControlName="origin">Virtual/Synthetic
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group row mb-2">
+                  <label class="col-md-2 col-form-label"
+                         attr.for="{{'sampleName' + i}}">Sample name</label>
+                  <div class="col-md-8">
+                    <input class="form-control"
+                           id="{{'sampleName' + i}}"
+                           type="text"
+                           placeholder="Samplename (required)"
+                           formControlName="sampleName">
+                  </div>
+                </div>
+
+                <div class="form-group row mb-2">
+                  <label class="col-md-2 col-form-label"
+                         attr.for="{{'sampleLocality' + i}}">Sample locality</label>
+                  <div class="col-md-8">
+                    <input class="form-control"
+                           id="{{'sampleLocality' + i}}"
+                           type="text"
+                           default="a"
+                           formControlName="sampleLocality">
+                  </div>
+                </div>
+
+
+                <div class="form-group row mb-2">
+                  <label class="col-md-2 col-form-label"
+                         attr.for="{{'mscomment' + i}}">Comment</label>
+                  <div class="col-md-8">
+                    <textarea class="form-control"
+                              id="{{'mscomment' + i}}"
+                              placeholder="Comment (optional)"
+                              formControlName="comment"></textarea>
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                 Image Information
+                </mat-panel-title>
+                <mat-panel-description>
+                  Detailed information on the image
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <div>
+                <div class="form-group row mb-2">
+                  <label class="col-md-2 col-form-label"
+                         attr.for="{{'dimension' + i}}">Dimension</label>
+                  <div class="col-md-8">
+                    <select class="form-control"
+                      id="{{'dimension' + i}}"
+                      formControlName="dimension">
+                        <option value="">Choose Dimension</option>
+                        <option *ngFor="let dimension of dimensions" [ngValue]="dimension">{{dimension}}</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group row mb-2">
+                  <label class="col-md-2 col-form-label"
+                         attr.for="{{'resolution' + i}}">Resolution</label>
+                  <div class="col-md-2">
+                    <input class="form-control"
+                           id="{{'resolution' + i}}"
+                           type="text"
+                           placeholder="Resolution (required)"
+                           formControlName="resolution">
+                  </div>
+                  <div class="col-md-2">
+                    <select class="form-control"
+                      id="{{'resolution' + i}}"
+                      formControlName="resolutionUnit">
+                        <option value="">Choose Dimension</option>
+                        <option *ngFor="let unit of resolutionUnits" [ngValue]="unit">{{unit}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row mb-2">
+                  <label class="col-md-2 col-form-label"
+                         attr.for="{{'segmentation' + i}}">Segmentation</label>
+                  <div class="col-md-8">
+                    <select class="form-control"
+                           id="{{'segmentation' + i}}"
+                           formControlName="segmentation">
+                        <option value="">Choose Segmentation</option>
+                        <option *ngFor="let seg of segmentation" [ngValue]="seg">{{seg}}</option>
+                    </select>
+                  </div>
+                </div>
+
+<!--                <div class="form-group row mb-2">-->
+<!--                  <label class="col-md-2 col-form-label">Number of Phases</label>-->
+<!--                  <div class="col-md-8">-->
+<!--                    <div class="form-check form-check-inline">-->
+<!--                      <label class="form-check-label">-->
+<!--                        <input class="form-check-input"-->
+<!--                               id="{{'nbPhases' + i}}"-->
+<!--                               type="radio"-->
+<!--                               value="2"-->
+<!--                               formControlName="nbPhases">2-->
+<!--                      </label>-->
+<!--                    </div>-->
+
+<!--                    <div class="form-check form-check-inline">-->
+<!--                      <label class="form-check-label">-->
+<!--                        <input class="form-check-input"-->
+<!--                               id="{{'nbPhases' + i}}"-->
+<!--                               type="radio"-->
+<!--                               value="3"-->
+<!--                               formControlName="nbPhases">3-->
+<!--                      </label>-->
+<!--                    </div>-->
+
+<!--                    <div class="form-check form-check-inline">-->
+<!--                      <label class="form-check-label">-->
+<!--                        <input class="form-check-input"-->
+<!--                               id="{{'nbPhases' + i}}"-->
+<!--                               type="radio"-->
+<!--                               value="4"-->
+<!--                               formControlName="nbPhases">4-->
+<!--                      </label>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+
+                <div *ngIf="true" class="form-group row mb-2">
+                  <label class="col-md-2 col-form-label"
+                         attr.for="{{'phasecomposition' + i}}">Phase Composition</label>
+                  <div class="col-md-8">
+                    <table>
+                      <thead>
+                      <tr>
+                        <th></th><th>Phase material</th><th>Grey value / label</th><th></th>
+                      </tr>
+                      </thead>
+                      <tbody>
+<!--                      <tr *ngFor="let phasecomposition of microstructure.get('phasecompositions')">-->
+<tr>
+  <td>Phase 1</td>
+  <td>a</td>
+                        <td>b</td>
+  <td><button>Add Phase</button></td>
+                      </tr>
+                      <tr>
+  <td>Phase 1</td>
+  <td>a</td>
+                        <td>b</td>
+                        <td><button>Add Phase</button><button>Delete Phase</button></td>
+                      </tr>
+                      </tbody>
+                    </table>
+<!--                    <input class="form-control"-->
+<!--                           id="{{'phasecomposition' + i}}"-->
+<!--                           type="text"-->
+<!--                           placeholder="Phase Composition (required)"-->
+<!--                           formControlName="phasecomposition">-->
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel>
+
+
+
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                 Files
+                </mat-panel-title>
+                <mat-panel-description>
+                  File upload
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <div>
+
+
+                <div class="form-group row mb-2">
+                  <label class="col-md-2 col-form-label"
+                         attr.for="{{'image' + i}}">Image</label>
+                  <div class="col-md-8">
+                    <input class="form-control"
+                           id="{{'image' + i}}"
+                           type="text"
+                           placeholder="Image (required)"
+                           formControlName="imageFile">
+                  </div>
+                </div>
+                <div class="form-group row mb-2">
+                  <label class="col-md-2 col-form-label"
+                         attr.for="{{'geodict' + i}}">GeoDict File</label>
+                  <div class="col-md-8">
+                    <input class="form-control"
+                           id="{{'geodict' + i}}"
+                           type="text"
+                           placeholder="GeoDict File (optional)"
+                           formControlName="geodictFile">
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </mat-expansion-panel>
+      </div>
     </div>
-  </mat-expansion-panel>
-</mat-accordion>
+  </mat-accordion>
+
+  <div class="row navigation-buttons-bottom">
+    <div class="col-md-4">
+      <button class="btn btn-outline-primary"
+              type="button"
+              [disabled]="false && !microstructures.valid"
+              (click)="addMicrostructure()">
+        Save & Add another microstructure
+      </button>
+    </div>
+    <div class="col-md-4">
+      <button class="btn btn-outline-primary"
+              type="button"
+              [disabled]="false && !microstructures.valid"
+              (click)="addMicrostructure()">
+        Download csv template for bulk upload
+      </button>
+    </div>
+    <div class="col-md-4">
+      <button class="btn btn-outline-primary"
+              type="button"
+              [disabled]="false && !microstructures.valid"
+              (click)="addMicrostructure()">
+        Upload many structures
+      </button>
+    </div>
+  </div>
+</form>

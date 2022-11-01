@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "dist/ng-omd",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

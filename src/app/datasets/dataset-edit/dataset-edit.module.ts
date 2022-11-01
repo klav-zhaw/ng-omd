@@ -14,6 +14,7 @@ import { DatasetEditBaseComponent } from './dataset-edit-base/dataset-edit-base.
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
+import {MatTableModule} from "@angular/material/table";
 
 
 
@@ -28,14 +29,15 @@ import {MatIconModule} from '@angular/material/icon';
     DatasetPublishingComponent,
     DatasetEditBaseComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    MatExpansionModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatChipsModule,
-    MatIconModule
-  ]
+    imports: [
+        CommonModule,
+        RouterModule,
+        MatExpansionModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatChipsModule,
+        MatIconModule,
+        MatTableModule
+    ]
 })
 export class DatasetEditModule { }
