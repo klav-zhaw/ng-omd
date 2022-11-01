@@ -2,8 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DatasetService} from '../../../core/dataset.service';
 import {Subscription} from 'rxjs';
 import {Dataset} from '../../../shared/interfaces';
-import {FormGroup} from '@angular/forms';
-import {ActivatedRoute} from '@angular/router';
+import {AbstractControl, UntypedFormArray, UntypedFormGroup} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
 import {toNumber} from 'ngx-bootstrap/timepicker/timepicker.utils';
 
 @Component({
@@ -11,11 +11,13 @@ import {toNumber} from 'ngx-bootstrap/timepicker/timepicker.utils';
   template: '',
 })
 export class DatasetEditBaseComponent implements OnInit, OnDestroy {
-  public datasetForm!: FormGroup;
+  public microstructureForm!: UntypedFormGroup;
   protected subscription!: Subscription;
 
   protected currentDataset!: Dataset | null;
   protected originalDataset!: Dataset | null;
+  protected errorMessage: string = "";
+  protected tabs = ['dataset-meta', 'dataset-materials', 'dataset-microstructures', 'dataset-fabrication', 'dataset-properties', 'dataset-publishing']
 
   get dataset(): Dataset | null {
     return this.currentDataset;
@@ -28,7 +30,8 @@ export class DatasetEditBaseComponent implements OnInit, OnDestroy {
 
 
   constructor(protected datasetService: DatasetService,
-              protected route: ActivatedRoute) { }
+              protected route: ActivatedRoute,
+              protected router: Router) { }
 
   ngOnInit(): void {
     this.subscription = this.datasetService.selectedDatasetChanges$.subscribe(
@@ -49,5 +52,47 @@ export class DatasetEditBaseComponent implements OnInit, OnDestroy {
     this.dataset = dataset;
 
   }
+
+  onSaveComplete(): void{
+    this.microstructureForm!.reset();
+    this.router.navigate(['/datasets'])
+  }
+
+  getCurrentTab(): string {
+    return this.router.url.split('/').pop()!;
+  }
+
+  getNewTab(i=0): string {
+    let currentTabIndex = 0;
+    currentTabIndex = this.tabs.indexOf(this.getCurrentTab());
+    if (currentTabIndex + i >= 0 && currentTabIndex + i < this.tabs.length)
+      return this.tabs[currentTabIndex + i];
+    return '';
+  }
+
+
+  saveDataset():void {
+    if (this.microstructureForm.valid) {
+      if (this.microstructureForm.dirty) {
+        const theDataset = { ...this.dataset, ...this.microstructureForm.value };
+        this.datasetService.saveDataset(theDataset)
+          .subscribe({
+            next: () => this.onSaveComplete(),
+            error: err => this.errorMessage = err
+        });
+      } else {
+        this.onSaveComplete();
+      }
+    } else {
+      this.errorMessage = 'Please correct the validation errors.';
+    }
+
+    console.log('Saved: ' + JSON.stringify(this.microstructureForm.value));
+  }
+
+  saveAndGotoTab(theTabLink: string): void {
+    this.router.navigate(['datasets', this.dataset?.id, 'edit', theTabLink])
+  }
+
 
 }

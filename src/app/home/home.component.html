@@ -1,15 +1,52 @@
 
 <div class="card">
   <div class="card-header">
-    {{pageTitle}}
+    <h2>{{pageTitle}}</h2>
   </div>
+  <div class="card-body">
+    <div>
+      <p>
+        DMR is a collection of image data representing engineered materials,
+        which serve as a basis for digital materials design (e.g. by means of stochastic geometry modeling and/or machine learning)
+      </p>
+      <p>
+        DMR is focusing on image data from energy materials (e.g. battery, fuel cell electrodes), but also other engineered materials (e.g. composite materials or porous media for catalysis, filtration etc) are collected.
+      </p>
+      <p>
+        Ideally, a set of 3D images is provided, which is representing the microstructure variation caused by a systematic parameter sweep (e.g.variation of compositions and/or particle sizes / also time series from experimental 4D tomography or time lapse imaging)
+      </p>
+      <p>
+        Ideally, a set of 3D images is provided, which is representing the microstructure variation caused by a systematic parameter sweep (e.g.variation of compositions and/or particle sizes / also time series from experimental 4D tomography or time lapse imaging)
+      </p>
+      <p>
+        Ideally, the experimental images are segmented (i.e. each phase lis abelled with a certain gray scale), but also normal gray scale images (non segmented) can be uploaded.
+      </p>
+      <p>
+        Vitual 3D images from microstructure modeling (stochastic geometry, sphere packing algorithms, GRF, DEM etc) are collected as well.
+      </p>
+      <p>
+        A minimum number of data fields and formats are mandatory (e.g. for each image: voxel size, number of phases, typical gray scale of phases). This information is required to enhance resuability for digital materials design. For this purpose, certain additional infromation is also higly recommended (e.g. description of systematic parameter(s) sweep, where applicable). However, most information classes are optional (e.g. descriptions of materials fabrication, properties and performance) in order to make the upload easy and user-friendly.
+      </p>
+      <p>
+        All datasets are ranked with a DMR quality label. Above a certain quality threshold, the uploaded microstructures are automatically chosen for a standardized characterization of morphological characteristics (e.g. tortuosity, constrictivity, surface area etc.) and relative properties (e.g. conducticitvity, diffusivity, permeability).
+      </p>
+    </div>
 
-
-
-<button class="btn btn-primary" routerLink="/datasets/0/edit">Upload new dataset</button>
-<ul class="nav nav-tabs">
-    <a routerLink="/datasets">Datasets</a>
-<a routerLink="/datasets/0/edit">Upload dataset</a>
-</ul>
-
-
+    <h3>DMR services:</h3>
+    <p>
+      DOI for each dataset / Search help to enhance findability / upload and download interfaces / FAIR and OpenScience principles
+Standardized characterization for data sets fulfilling quality threshold
+    </p>
+    <p>
+      The contents of DiMiRep will be curated:
+    </p>
+    <ul>
+      <li>Statistical analysis of morphological characteristics and relative properties for important material types (battery and fuel cell electrodes, catalysts etc)</li>
+      <li>Overview of DMR contents for certain material types: e.g. for Lithium Ion Batteries (LIB): Nr of datasets, Nr of experimental imaged and Nr of simulated 3D data</li>
+      <li>The curated data helps to find suitable data and, due to standardized characterization, it gives unique information to the specific material research communities</li>
+    </ul>
+  </div>
+</div>
+<div class="card">
+  <button class="btn btn-primary" routerLink="/datasets/0/edit">Upload new dataset</button>
+</div>

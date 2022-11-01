@@ -1,9 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {Dataset} from '../../shared/interfaces';
 import {DatasetService} from '../../core/dataset.service';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {DatasetEditBaseComponent} from './dataset-edit-base/dataset-edit-base.component';
+import {isValid} from 'ngx-bootstrap/chronos/create/valid';
+// import * as path from 'path';
 
 @Component({
   selector: 'app-dataset-edit',
@@ -12,7 +14,6 @@ import {DatasetEditBaseComponent} from './dataset-edit-base/dataset-edit-base.co
 })
 export class DatasetEditComponent extends DatasetEditBaseComponent implements OnInit, OnDestroy {
   pageTitle:string = "Upload new Dataset";
-  errorMessage = '';
 
   private dataIsValid: { [key: string]: boolean } = {};
 
@@ -20,11 +21,13 @@ export class DatasetEditComponent extends DatasetEditBaseComponent implements On
   //   return JSON.stringify(this.originalDataset) !== JSON.stringify(this.currentDataset);
   // }
 
+  // theDataset$ = new Observable<Dataset>;
 
   constructor(datasetService: DatasetService,
               route: ActivatedRoute,
-              private router: Router) {
-    super(datasetService, route);
+              router: Router) {
+    super(datasetService, route, router);
+
   }
 
   override ngOnInit(): void {
@@ -86,28 +89,28 @@ export class DatasetEditComponent extends DatasetEditBaseComponent implements On
       Object.keys(this.dataIsValid).every(d => this.dataIsValid[d] === true));
   }
 
-  saveDataset(): void {
-    if (this.dataset && this.isValid()) {
-      this.datasetService.saveDataset(this.dataset).subscribe({
-          next: () => this.onSaveComplete(`The ${this.dataset?.title} was saved`),
-          error: err => this.errorMessage = err
-      });
-    } else {
-      this.errorMessage = 'Please correct the validation errors.';
-    }
-  }
-
-  onSaveComplete(message?: string): void {
-    if (message) {
-      console.log("Dataset saved");
-      //this.messageService.addMessage(message);
-    }
-    const id: number | null | undefined = this.dataset?.id;
-    this.reset();
-
-    // Navigate to dataset-details site of id
-    this.router.navigate(['/datasets/', id]);
-  }
+  // saveDataset(): void {
+  //   if (this.dataset && this.isValid()) {
+  //     this.datasetService.saveDataset(this.dataset).subscribe({
+  //         next: () => this.onSaveComplete(`The ${this.dataset?.title} was saved`),
+  //         error: err => this.errorMessage = err
+  //     });
+  //   } else {
+  //     this.errorMessage = 'Please correct the validation errors.';
+  //   }
+  // }
+  //
+  // onSaveComplete(message?: string): void {
+  //   if (message) {
+  //     console.log("Dataset saved");
+  //     //this.messageService.addMessage(message);
+  //   }
+  //   const id: number | null | undefined = this.dataset?.id;
+  //   this.reset();
+  //
+  //   // Navigate to dataset-details site of id
+  //   this.router.navigate(['/datasets/', id]);
+  // }
 
 
   // goToTab(tabToGo: string) {

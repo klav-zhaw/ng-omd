@@ -1,47 +1,70 @@
-<mat-accordion multi style="width:800px; display:block">
-  <mat-expansion-panel expanded>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Material Keywords
-      </mat-panel-title>
-      <mat-panel-description>
-        Please add 3 to 5 keywords that characterize the materials and microstructures, which are the content of this
-        dataset.
-        For example: Fuel cells, SOFC, electrode, cermet anode, Ni-YSZ
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <div>
-      <mat-form-field class="example-chip-list" appearance="fill">
-        <mat-label>Material Keywords</mat-label>
-        <mat-chip-list #chipList aria-label="Material keywords">
-          <mat-chip *ngFor="let keyword of materialKeywords" (removed)="remove(keyword)">
-            {{keyword}}
-            <button matChipRemove>
-              <mat-icon>cancel</mat-icon>
-            </button>
-          </mat-chip>
-          <input placeholder="New keyword..."
-                 [matChipInputFor]="chipList"
-                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                 [matChipInputAddOnBlur]="addOnBlur"
-                 (matChipInputTokenEnd)="add($event)">
-        </mat-chip-list>
-      </mat-form-field>
-    </div>
-  </mat-expansion-panel>
+<form novalidate
+      (ngSubmit)="saveDataset()"
+      [formGroup]="microstructureForm">
+  <mat-accordion multi style="width:800px; display:block">
+    <mat-expansion-panel expanded>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Material Keywords
+        </mat-panel-title>
+        <mat-panel-description>
+          Please add 3 to 5 keywords.
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div>
+        <p style="padding-bottom:10px;">Choose keywords that characterize the materials and microstructures, which are the content of this
+          dataset.<br/>
+          For example: Fuel cells, SOFC, electrode, cermet anode, Ni-YSZ</p>
+        <mat-form-field class="material-chip-list" appearance="fill">
+          <mat-label>Material Keywords</mat-label>
+          <mat-chip-list #chipList aria-label="Material keywords">
+            <mat-chip *ngFor="let keyword of materialKeywords" (removed)="remove(keyword)">
+              {{keyword}}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+            <input placeholder="New keyword..."
+                   [matChipInputFor]="chipList"
+                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                   [matChipInputAddOnBlur]="addOnBlur"
+                   (matChipInputTokenEnd)="add($event)">
+          </mat-chip-list>
+        </mat-form-field>
+      </div>
+    </mat-expansion-panel>
 
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Panel 2
-      </mat-panel-title>
-      <mat-panel-description>
-        Description 2
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <div>
-      content 2
-    </div>
-  </mat-expansion-panel>
-</mat-accordion>
-
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Material application
+        </mat-panel-title>
+        <mat-panel-description>
+          Select the field of application
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="form-group row mb-2">
+        <label class="col-md-3 col-form-label">
+          Material Application
+        </label>
+        <div class="col-md-8">
+          <select class="form-control">
+            <option value="">Choose Application</option>
+            <option *ngFor="let matApp of materialApplication" [ngValue]="matApp">{{matApp}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row mb-2" *ngIf>
+        <label class="col-md-3 col-form-label">
+          Energy Materials Subgroup
+        </label>
+        <div class="col-md-8">
+          <select class="form-control">
+            <option value="">Choose Subgroup</option>
+            <option *ngFor="let subgroup of energyMaterials" [ngValue]="subgroup">{{subgroup}}</option>
+          </select>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</form>

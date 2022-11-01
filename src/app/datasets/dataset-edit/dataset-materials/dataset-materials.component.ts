@@ -8,6 +8,19 @@ import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {map, Observable, startWith} from 'rxjs';
 
+
+
+// interface MaterialApplication {
+//   value: string;
+//   viewValue: string;
+// }
+//
+// interface MaterialApplicationGroup {
+//   disabled?: boolean;
+//   name: string;
+//   materialApplication: MaterialApplication[];
+// }
+
 @Component({
   selector: 'app-dataset-materials',
   templateUrl: './dataset-materials.component.html',
@@ -22,27 +35,55 @@ export class DatasetMaterialsComponent extends DatasetEditBaseComponent implemen
   materialKeywords: string[] = [];
   allKeywords: string[] = [];
 
+  materialApplication = [
+    'Energy materials (battery, fuel cells, etc)',
+    'Biomedical (implants, pharma, etc)',
+    'Chemical engineering (separation, filtration etc)',
+    'Agro-, nutrition-, food-industries',
+    'Environmental-, Geo-, Civil-engineering',
+    'Aviation, automotive, transportation',
+    'Electronics, photonics, optics, magnetics',
+    'Coatings, (thin)films, surface modifications',
+    'Other applications:'];
+
+  energyMaterials: string[] = [
+    'Batteries - Lithium ion',
+    'Batteries - Redox flow',
+    'Batteries - Other:',
+    'Fuel cells- PEM',
+    'Fuel cells- SOFC',
+    'Fuel cells- Other:',
+    'Other'];
+
+
+
   @ViewChild('keywordInput')
   keywordInput!: ElementRef<HTMLInputElement>;
 
   constructor(datasetService: DatasetService,
               route: ActivatedRoute,
-              private router: Router,
+              router: Router,
               private fb: UntypedFormBuilder) {
 
-    super(datasetService, route);
+    super(datasetService, route, router);
 
     this.filteredKeywords = this.keywordsCtrl.valueChanges.pipe(
       startWith(null),
       map((keyword: string | null) => (keyword ? this._filter(keyword): this.allKeywords.slice())),
     );
 
-    this.datasetForm = this.fb.group({
+    this.microstructureForm = this.fb.group({
       keywords: [],
-      materialDescription: '',
-      materialClassification: '',
-      materialApplicationField: '',
-      interestingProperties: '',
+      materialApplication: '',
+      materialApplicationOther: '',
+      energyMaterial: '',
+      energyMaterialOther: '',
+      energyMaterialBatOther: '',
+      energyMaterialFuelOther: ''
+      // materialDescription: '',
+      // materialClassification: '',
+      // materialApplicationField: '',
+      // interestingProperties: '',
     });
 
   }

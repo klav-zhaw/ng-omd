@@ -13,41 +13,26 @@ import {DatasetEditBaseComponent} from '../dataset-edit-base/dataset-edit-base.c
 })
 export class DatasetMetadataComponent extends DatasetEditBaseComponent implements OnInit, OnDestroy {
 
-  errorMessage!: string;
-
   constructor(datasetService: DatasetService,
               route: ActivatedRoute,
-              private router: Router,
+              router: Router,
               private fb: UntypedFormBuilder) {
 
-    super(datasetService, route);
+    super(datasetService, route, router);
 
-    this.datasetForm = this.fb.group({
+    this.microstructureForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
       description: '',
       authors: this.fb.array([this.buildAuthor('ownerFirstName', 'ownerLastName')]),
-      fundingAgency: '',
-      grantNumber: '',
+      fundings: this.fb.array([]),
       references: this.fb.array([])
     });
 
   }
 
   get authors(): UntypedFormArray {
-    return <UntypedFormArray>this.datasetForm.get('authors');
+    return <UntypedFormArray>this.microstructureForm.get('authors');
   }
-
-  get references(): UntypedFormArray {
-    return <UntypedFormArray>this.datasetForm.get('references');
-  }
-
-  // ngOnInit(): void {
-  //   super().onInit();
-  // }
-  //
-  // ngOnDestroy(): void {
-  //   super();
-  // }
 
   buildAuthor(firstName: string = '', lastName: string = '', affiliation: string = '', orcId: string = ''): UntypedFormGroup {
     return this.fb.group({
@@ -62,6 +47,27 @@ export class DatasetMetadataComponent extends DatasetEditBaseComponent implement
     this.authors.push(this.buildAuthor());
   }
 
+
+  get fundings(): UntypedFormArray {
+    return <UntypedFormArray>this.microstructureForm.get('fundings');
+  }
+
+  buildFunding(): UntypedFormGroup {
+    return this.fb.group({
+      fundingAgency: '',
+      grantNumber: ''
+    });
+  }
+
+  addFunding(): void {
+    this.fundings.push(this.buildFunding());
+  }
+
+
+  get references(): UntypedFormArray {
+    return <UntypedFormArray>this.microstructureForm.get('references');
+  }
+
   buildReference(): UntypedFormGroup {
     return this.fb.group({
       doi: '',
@@ -73,13 +79,15 @@ export class DatasetMetadataComponent extends DatasetEditBaseComponent implement
     this.references.push(this.buildReference());
   }
 
-  isValid(fieldName: string, i:number = -1) : boolean {
+
+
+  isFieldValid(fieldName: string, i:number = -1) : boolean {
     let theFormControl: AbstractControl | null;
     if (i == -1) {
-      theFormControl = this.datasetForm.get(fieldName) as UntypedFormArray;
+      theFormControl = this.microstructureForm.get(fieldName) as UntypedFormArray;
     } else {
       console.log(fieldName + i);
-      theFormControl = this.datasetForm.get(fieldName + i) as UntypedFormArray;
+      theFormControl = this.microstructureForm.get(fieldName + i) as UntypedFormArray;
     }
 
     if (theFormControl) {
@@ -89,29 +97,35 @@ export class DatasetMetadataComponent extends DatasetEditBaseComponent implement
     }
   }
 
-  saveDataset():void {
-    if (this.datasetForm.valid) {
-      if (this.datasetForm.dirty) {
-        const theDataset = { ...this.dataset, ...this.datasetForm.value };
-        this.datasetService.saveDataset(theDataset)
-          .subscribe({
-            next: () => this.onSaveComplete(),
-            error: err => this.errorMessage = err
-        });
-      } else {
-        this.onSaveComplete();
-      }
-    } else {
-      this.errorMessage = 'Please correct the validation errors.';
-    }
 
-    console.log('Saved: ' + JSON.stringify(this.datasetForm.value));
-  }
+  // saveAndGotoNext(): void {
+  //   this.router.navigate(['datasets', this.dataset?.id, 'edit', 'dataset-materials'])
+  // }
 
-  onSaveComplete(): void{
-    this.datasetForm!.reset();
-    this.router.navigate(['/datasets'])
-  }
+
+  // saveDataset():void {
+  //   if (this.microstructureForm.valid) {
+  //     if (this.microstructureForm.dirty) {
+  //       const theDataset = { ...this.dataset, ...this.microstructureForm.value };
+  //       this.datasetService.saveDataset(theDataset)
+  //         .subscribe({
+  //           next: () => this.onSaveComplete(),
+  //           error: err => this.errorMessage = err
+  //       });
+  //     } else {
+  //       this.onSaveComplete();
+  //     }
+  //   } else {
+  //     this.errorMessage = 'Please correct the validation errors.';
+  //   }
+  //
+  //   console.log('Saved: ' + JSON.stringify(this.microstructureForm.value));
+  // }
+  //
+  // onSaveComplete(): void{
+  //   this.microstructureForm!.reset();
+  //   this.router.navigate(['/datasets'])
+  // }
 
   getDataset(id: number): void {
     this.datasetService.getDataset(id)
@@ -122,13 +136,13 @@ export class DatasetMetadataComponent extends DatasetEditBaseComponent implement
   }
 
   displayDataset(dataset: Dataset): void {
-    if (this.datasetForm) {
-      this.datasetForm.reset();
+    if (this.microstructureForm) {
+      this.microstructureForm.reset();
     }
     this.dataset = dataset;
 
     // Update the data on the form
-    this.datasetForm.patchValue({
+    this.microstructureForm.patchValue({
       title: this.dataset.title,
       description: this.dataset.description,
     });

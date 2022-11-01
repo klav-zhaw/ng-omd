@@ -1,14 +1,14 @@
 <form novalidate
       (ngSubmit)="saveDataset()"
-      [formGroup]="datasetForm">
-  <mat-accordion multi style="width:800px; display:block">
+      [formGroup]="microstructureForm">
+  <mat-accordion multi style="display:block">
     <mat-expansion-panel expanded>
       <mat-expansion-panel-header>
         <mat-panel-title>
           Dataset Basic Information
         </mat-panel-title>
         <mat-panel-description>
-          Description is very long
+          Title and description
         </mat-panel-description>
       </mat-expansion-panel-header>
       <div>
@@ -21,7 +21,7 @@
                    type="text"
                    placeholder="Title (required)"
                    formControlName="title"
-                   [ngClass]="{'is-invalid': !isValid('title')}"/>
+                   [ngClass]="{'is-invalid': !isFieldValid('title')}"/>
             <!--          <span class="invalid-feedback">-->
             <!--            <span *ngIf="metadataForm.get('title')!.errors?.required">-->
             <!--              Please enter the dataset title.-->
@@ -37,12 +37,11 @@
           <label class="col-md-2 col-form-label"
                  for="descriptionId">Description</label>
           <div class="col-md-8">
-            <input class="form-control"
-                   id="descriptionId"
-                   type="text"
-                   placeholder="Description"
-                   formControlName="description"
-                   [ngClass]="{'is-invalid': !isValid('description')}"/>
+            <textarea class="form-control"
+                       id="descriptionId"
+                       placeholder="Description"
+                       formControlName="description"
+                      [ngClass]="{'is-invalid': !isFieldValid('description')}"></textarea>
           </div>
         </div>
       </div>
@@ -57,10 +56,9 @@
           Authors
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <div>
         <div formArrayName="authors"
              *ngFor="let author of authors.controls; let i=index">
-          <div [formGroupName]="i">
+          <div [formGroupName]="i" class="repeated-item card">
             <div class="form-group row mb-2">
               <label class="col-md-2 col-form-label"
                      attr.for="{{'authorFirstNameId' + i}}">First Name</label>
@@ -70,7 +68,7 @@
                        type="text"
                        placeholder="First Name"
                        formControlName="firstName"
-                       [ngClass]="{'is-invalid': !isValid('firstName', i)}"/>
+                       [ngClass]="{'is-invalid': !isFieldValid('firstName', i)}"/>
               </div>
             </div>
             <div class="form-group row mb-2">
@@ -82,7 +80,7 @@
                        type="text"
                        placeholder="Last Name"
                        formControlName="lastName"
-                       [ngClass]="{'is-invalid': !isValid('lastName', i)}"/>
+                       [ngClass]="{'is-invalid': !isFieldValid('lastName', i)}"/>
               </div>
             </div>
             <div class="form-group row mb-2">
@@ -94,7 +92,7 @@
                        type="text"
                        placeholder="Affiliation"
                        formControlName="affiliation"
-                       [ngClass]="{'is-invalid': !isValid('affiliation', i)}"/>
+                       [ngClass]="{'is-invalid': !isFieldValid('affiliation', i)}"/>
               </div>
             </div>
             <div class="form-group row mb-2">
@@ -106,7 +104,7 @@
                        type="text"
                        placeholder="Orc ID"
                        formControlName="orcId"
-                       [ngClass]="{'is-invalid': !isValid('orcId', i)}"/>
+                       [ngClass]="{'is-invalid': !isFieldValid('orcId', i)}"/>
               </div>
             </div>
           </div>
@@ -121,7 +119,6 @@
             </button>
           </div>
         </div>
-      </div>
     </mat-expansion-panel>
 
     <mat-expansion-panel>
@@ -130,35 +127,49 @@
           Funding
         </mat-panel-title>
         <mat-panel-description>
-          description
+          Add your funding agencies (optional)
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <div>
-        <div class="form-group row mb-2">
+
+        <div formArrayName="fundings" *ngFor="let funding of fundings.controls; let i=index">
+          <div [formGroupName]="i" class="repeated-item card">
+            <div class="form-group row mb-2">
+              <label class="col-md-2 col-form-label"
+                     attr.for="{{'fundingAgencyId' + i}}">Funding Agency</label>
+              <div class="col-md-8">
+                <input class="form-control"
+                       id="{{'fundingAgencyId' + i}}"
+                       type="text"
+                       placeholder="Funding Agency"
+                       formControlName="fundingAgency"
+                       [ngClass]="{'is-invalid': !isFieldValid('fundingAgency', i)}"/>
+              </div>
+            </div>
+          <div class="form-group row mb-2">
           <label class="col-md-2 col-form-label"
-                 for="fundingAgencyId">Funding Agency</label>
-          <div class="col-md-8">
-            <input class="form-control"
-                   id="fundingAgencyId"
-                   type="text"
-                   placeholder="Funding Agency"
-                   formControlName="fundingAgency"
-                   [ngClass]="{'is-invalid': !isValid('fundingAgency')}"/>
-          </div>
-        </div>
-        <div class="form-group row mb-2">
-          <label class="col-md-2 col-form-label"
-                 for="grantNoId">Grant Number</label>
+                 attr.for="{{'grantNoId' + i}}">Grant Number</label>
           <div class="col-md-8">
             <input class="form-control"
                    id="grantNoId"
                    type="text"
                    placeholder="Grant Number"
                    formControlName="grantNumber"
-                   [ngClass]="{'is-invalid': !isValid('grantNumber')}"/>
+                   [ngClass]="{'is-invalid': !isFieldValid('grantNumber', i)}"/>
           </div>
         </div>
       </div>
+           </div>
+        <div class="form-group row mb-2">
+          <div class="col-md-4">
+            <button class="btn btn-outline-primary"
+                    type="button"
+                    [disabled]="!fundings.valid"
+                    (click)="addFunding()">
+              Add another funding agency
+            </button>
+          </div>
+        </div>
+
     </mat-expansion-panel>
 
     <mat-expansion-panel>
@@ -167,14 +178,12 @@
           References
         </mat-panel-title>
         <mat-panel-description>
-          description
+          Add references here (optional)
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <div>
-
         <div formArrayName="references"
              *ngFor="let reference of references.controls; let i=index">
-          <div [formGroupName]="i">
+          <div [formGroupName]="i" class="repeated-item card">
             <div class="form-group row mb-2">
               <label class="col-md-2 col-form-label"
                      attr.for="{{'referenceDoiId' + i}}">DOI</label>
@@ -184,7 +193,7 @@
                        type="text"
                        placeholder="DOI"
                        formControlName="doi"
-                       [ngClass]="{'is-invalid': !isValid('doi', i)}"/>
+                       [ngClass]="{'is-invalid': !isFieldValid('doi', i)}"/>
               </div>
             </div>
             <div class="form-group row mb-2">
@@ -196,7 +205,7 @@
                        type="text"
                        placeholder="Citation"
                        formControlName="citation"
-                       [ngClass]="{'is-invalid': !isValid('citation', i)}"/>
+                       [ngClass]="{'is-invalid': !isFieldValid('citation', i)}"/>
               </div>
             </div>
           </div>
@@ -211,8 +220,7 @@
             </button>
           </div>
         </div>
-      </div>
     </mat-expansion-panel>
   </mat-accordion>
-
 </form>
+

@@ -18,3 +18,16 @@ div.card {
 .table {
   margin-top: 10px
 }
+
+div.repeated-item {
+  padding-bottom:5px;
+  padding-left:15px;
+  padding-top:15px;
+  margin-bottom: 10px;
+  background-color: lightsteelblue;
+}
+
+div.navigation-buttons-bottom {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
